@@ -1,7 +1,10 @@
 <?php
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\Socialite\Socialite;
 use Laravel\Socialite\Two\User;
+
+uses(DatabaseTransactions::class);
 
 test('user is redirected to google', function () {
     Socialite::fake('google');
