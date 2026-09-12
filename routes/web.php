@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\GoogleAuthCallbackController;
 use App\Http\Controllers\GoogleAuthRedirectController;
+use App\Http\Controllers\GuestLoginController;
+use App\Http\Middleware\ValidateGuestLease;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::view('/login', 'login')->name('login');
+    Route::post('/guest/login', GuestLoginController::class)->name('guest.login');
 
     Route::prefix('auth/google')->name('auth.google.')->group(function () {
         Route::get('/redirect', GoogleAuthRedirectController::class)->name('redirect');
@@ -13,7 +16,7 @@ Route::middleware('guest')->group(function () {
     });
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', ValidateGuestLease::class])->group(function () {
     Route::get('/', function () {
         return 'logged in..';
     })->name('dashboard');

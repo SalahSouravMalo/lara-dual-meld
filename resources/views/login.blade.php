@@ -53,13 +53,27 @@
                 @endsession
 
                 <div class="space-y-3">
-                    <a href="{{ route('auth.google.redirect') }}">
+                    <a href="{{ route('auth.google.redirect') }}" class="block">
                         <button type="button"
                             class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 box-border border border-transparent font-medium leading-5 rounded-base text-sm px-4 py-2.5 text-center inline-flex justify-center items-center dark:focus:ring-[#4285F4]/55 w-full cursor-pointer">
                             <x-icons.google class="w-4 h-4 me-1.5" />
                             {{ __('Sign in with Google') }}
                         </button>
                     </a>
+
+                    <div class="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400 my-4">
+                        <span class="h-px flex-1 bg-gray-200 dark:bg-gray-700"></span>
+                        <span>{{ __('or') }}</span>
+                        <span class="h-px flex-1 bg-gray-200 dark:bg-gray-700"></span>
+                    </div>
+
+                    <form action="{{ route('guest.login') }}" method="POST" class="block">
+                        @csrf
+                        <button type="submit"
+                            class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 box-border border border-gray-300 font-medium leading-5 rounded-base text-sm px-4 py-2.5 text-center inline-flex justify-center items-center dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600 dark:focus:ring-gray-700 w-full cursor-pointer">
+                            {{ __('Continue as Guest') }}
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
