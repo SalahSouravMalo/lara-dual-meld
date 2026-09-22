@@ -30,13 +30,15 @@ class GuestLoginController extends Controller
                     ->first();
 
                 if (! $user) {
-                    if (User::query()->guestAccount()->count() >= User::MAX_GUEST_ACCOUNTS) {
+                    $guestAccountsCount = User::query()->guestAccount()->count();
+
+                    if ($guestAccountsCount >= User::MAX_GUEST_ACCOUNTS) {
                         return null;
                     }
 
                     $user = User::create([
-                        'name' => 'Guest User',
-                        'email' => 'guest-'.Str::uuid().'@example.com',
+                        'name' => 'Guest User '.$guestAccountsCount + 1,
+                        'email' => 'guest-'.$guestAccountsCount + 1 .'@example.com',
                         'is_guest_account' => true,
                     ]);
                 }
