@@ -96,6 +96,16 @@ test('guest lease token is stored hashed, not in plaintext', function () {
     expect($user->guest_lease_token)->toBe(hash('sha256', $rawToken));
 });
 
+test('an authenticated user can log out', function () {
+    $this->post(route('guest.login'));
+
+    $response = $this->post(route('logout'));
+
+    $response->assertRedirect(route('login'));
+    $this->assertGuest();
+    expect(session('guest_lease_token'))->toBeNull();
+});
+
 /*
 |--------------------------------------------------------------------------
 | ValidateGuestLease Middleware Tests

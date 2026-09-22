@@ -3,6 +3,7 @@
 use App\Http\Controllers\GoogleAuthCallbackController;
 use App\Http\Controllers\GoogleAuthRedirectController;
 use App\Http\Controllers\GuestLoginController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Middleware\ValidateGuestLease;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +18,6 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware(['auth', ValidateGuestLease::class])->group(function () {
-    Route::get('/', function () {
-        return 'logged in..';
-    })->name('dashboard');
+    Route::view('/', 'dashboard')->name('dashboard');
+    Route::post('/logout', LogoutController::class)->name('logout');
 });
