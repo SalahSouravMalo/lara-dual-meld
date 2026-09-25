@@ -64,6 +64,37 @@
         </div>
     </nav>
 
+    <div class="mx-auto max-w-5xl px-6 mt-32">
+        <div class="mb-10 text-center">
+            <h1 class="mb-2 text-4xl font-bold tracking-tight text-heading">
+                {!! __('Welcome to :app_name', ['app_name' => '<span class="text-fg-brand">' . config('app.name') . '</span>']) !!}
+            </h1>
+            <p class="text-lg text-gray-500 dark:text-gray-400">
+                {{ __('Create a new room or join an existing one.') }}
+            </p>
+        </div>
+    </div>
+
+    <div class="bg-neutral-primary-soft block max-w-sm mx-auto p-6 border border-default rounded-base shadow-xs">
+        <h5 class="mb-3 text-2xl font-semibold tracking-tight text-heading leading-8">{{ __('Create a Room') }}</h5>
+        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+            {{ __('Start a new game and invite other players to join. Each game supports up to four players, and any open spots will be filled by bots.') }}
+        </p>
+        <form action="{{ route('rooms.store') }}" method="post">
+            @csrf
+
+            <button type="submit"
+                class="inline-flex items-center text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+                {{ __('Create Room') }}
+                <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 12H5m14 0-4 4m4-4-4-4" />
+                </svg>
+            </button>
+        </form>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.2/dist/flowbite.min.js"></script>
 </body>
 
