@@ -2,10 +2,10 @@
 
 namespace App\Actions;
 
+use App\Exceptions\UnableToGenerateRoomCodeException;
 use App\Models\Room;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use RuntimeException;
 
 class CreateRoomAction
 {
@@ -37,7 +37,7 @@ class CreateRoomAction
             }
         }
 
-        throw new RuntimeException(
+        throw new UnableToGenerateRoomCodeException(
             __('Unable to generate a unique room code.')
         );
     }
