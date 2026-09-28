@@ -5,6 +5,7 @@ use App\Http\Controllers\GoogleAuthRedirectController;
 use App\Http\Controllers\GuestLoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\RoomJoinController;
 use App\Http\Middleware\ValidateGuestLease;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +26,6 @@ Route::middleware(['auth', ValidateGuestLease::class])->group(function () {
     Route::prefix('rooms')->name('rooms.')->group(function () {
         Route::post('/', [RoomController::class, 'store'])->name('store');
         Route::get('/{room:code}', [RoomController::class, 'show'])->name('show');
+        Route::post('/join', RoomJoinController::class)->name('join');
     });
 });

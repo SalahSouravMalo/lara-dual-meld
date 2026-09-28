@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    @fonts
-
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @endif
-</head>
-
-<body class="bg-gray-50 dark:bg-gray-900">
+<x-layouts.guest>
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:min-h-screen">
         <div
             class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
@@ -78,8 +62,4 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.2/dist/flowbite.min.js"></script>
-</body>
-
-</html>
+</x-layouts.guest>

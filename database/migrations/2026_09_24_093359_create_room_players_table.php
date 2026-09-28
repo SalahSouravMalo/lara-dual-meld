@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('player_id')->nullable()->constrained('users');
             $table->dateTime('joined_at');
             $table->timestamps();
+
+            $table->unique(['room_id', 'player_id']);
         });
     }
 

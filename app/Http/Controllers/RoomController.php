@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateRoomAction;
+use App\Actions\JoinRoomAction;
 use App\Models\Room;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -16,8 +18,12 @@ class RoomController extends Controller
         return redirect()->route('rooms.show', $room);
     }
 
-    public function show(Request $request, Room $room)
+    public function show(Request $request, Room $room, JoinRoomAction $action): View
     {
-        dump($room);
+        $action->execute($room, $request->user());
+
+        $room->load('players.player');
+
+        return view('rooms.show', compact('room'));
     }
 }

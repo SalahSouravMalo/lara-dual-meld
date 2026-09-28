@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    @fonts
-
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @endif
-</head>
-
-<body class="bg-gray-50 dark:bg-gray-900">
+<x-layouts.auth>
     <nav class="bg-neutral-primary fixed w-full z-20 top-0 start-0 border-b border-default">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -75,27 +59,58 @@
         </div>
     </div>
 
-    <div class="bg-neutral-primary-soft block max-w-sm mx-auto p-6 border border-default rounded-base shadow-xs">
-        <h5 class="mb-3 text-2xl font-semibold tracking-tight text-heading leading-8">{{ __('Create a Room') }}</h5>
-        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
-            {{ __('Start a new game and invite other players to join. Each game supports up to four players, and any open spots will be filled by bots.') }}
-        </p>
-        <form action="{{ route('rooms.store') }}" method="post">
-            @csrf
+    <div class="mx-auto grid max-w-4xl gap-6 px-6 md:grid-cols-2">
+        <div class="bg-neutral-primary-soft block p-6 border border-default rounded-base shadow-xs">
+            <h5 class="mb-3 text-2xl font-semibold tracking-tight text-heading leading-8">{{ __('Create a Room') }}
+            </h5>
+            <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                {{ __('Start a new game and invite other players to join. Each game supports up to four players, and any open spots will be filled by bots.') }}
+            </p>
+            <form action="{{ route('rooms.store') }}" method="post">
+                @csrf
 
-            <button type="submit"
-                class="inline-flex items-center text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
-                {{ __('Create Room') }}
-                <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                    width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 12H5m14 0-4 4m4-4-4-4" />
-                </svg>
-            </button>
-        </form>
+                <button type="submit"
+                    class="inline-flex items-center text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+                    {{ __('Create Room') }}
+                    <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 12H5m14 0-4 4m4-4-4-4" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-neutral-primary-soft block p-6 border border-default rounded-base shadow-xs">
+            <h5 class="mb-3 text-2xl font-semibold tracking-tight text-heading leading-8">{{ __('Join a Room') }}</h5>
+            <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                {{ __('Enter a room code or paste a room URL to join an existing game.') }}
+            </p>
+            <form action="{{ route('rooms.join') }}" method="post" class="space-y-4">
+                @csrf
+
+                <div>
+                    <x-input-label for="room-code-or-url" value="{{ __('Room code or URL') }}" class="sr-only" />
+                    <input type="text" id="room-code-or-url" name="room_code_or_url"
+                        placeholder="{{ __('Room code or URL') }}"
+                        class="block w-full rounded-base border border-default bg-neutral-primary-soft px-3 py-2.5 text-sm text-heading placeholder:text-body focus:border-brand focus:ring-brand"
+                        required>
+                    <x-input-error :messages="$errors->get('room_code_or_url')" class="mt-2" />
+                </div>
+
+                <button type="submit"
+                    class="inline-flex items-center text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
+                    {{ __('Join Room') }}
+                    <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 12H5m14 0-4 4m4-4-4-4" />
+                    </svg>
+                </button>
+            </form>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.2/dist/flowbite.min.js"></script>
-</body>
-
-</html>
+</x-layouts.auth>
