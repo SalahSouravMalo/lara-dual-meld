@@ -13,15 +13,10 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->after('google_id', function (Blueprint $table) {
-                $table->boolean('is_guest_account')
-                    ->default(false)
-                    ->index();
+                $table->boolean('is_guest_account')->default(false)->index();
                 $table->string('guest_lease_token')->nullable();
-                $table->timestamp('guest_lease_expires_at')
-                    ->nullable()
-                    ->index();
-                $table->timestamp('last_activity_at')
-                    ->nullable();
+                $table->timestamp('guest_lease_expires_at')->nullable()->index();
+                $table->timestamp('last_activity_at')->nullable();
             });
         });
     }
