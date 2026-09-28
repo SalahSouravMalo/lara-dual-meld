@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->dateTime('starts_at');
             $table->foreignId('created_by')->constrained('users');
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 
