@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+mapfile -t staged_php_files < <(
+    git diff --cached --name-only --diff-filter=ACM -- '*.php'
+)
+
+if ((${#staged_php_files[@]} > 0)); then
+    ./vendor/bin/pint "${staged_php_files[@]}"
+    git add -- "${staged_php_files[@]}"
+fi
