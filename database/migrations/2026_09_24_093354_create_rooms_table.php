@@ -17,6 +17,8 @@ return new class extends Migration
             $table->dateTime('starts_at');
             $table->foreignId('created_by')->constrained('users');
             $table->timestamps();
+
+            $table->index('starts_at');
         });
     }
 

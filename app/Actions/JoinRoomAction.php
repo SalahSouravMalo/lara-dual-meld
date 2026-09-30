@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Enums\CacheKeys;
+use App\Events\RoomPlayerJoined;
 use App\Exceptions\RoomAlreadyStartedException;
 use App\Exceptions\RoomFullException;
 use App\Models\Room;
@@ -16,12 +17,12 @@ class JoinRoomAction
         $lockKey = CacheKeys::roomJoin($room->id);
 
         Cache::lock($lockKey, 3)->block(3, function () use ($room, $player) {
-            if ($room->starts_at->isPast()) {
-                throw new RoomAlreadyStartedException(__('This room has already started.'));
-            }
-
             if ($room->players()->where('player_id', $player->id)->exists()) {
                 return;
+            }
+
+            if ($room->starts_at->isPast()) {
+                throw new RoomAlreadyStartedException(__('This room has already started.'));
             }
 
             if ($room->players()->count() >= 4) {
@@ -32,6 +33,8 @@ class JoinRoomAction
                 'player_id' => $player->id,
                 'joined_at' => now(),
             ]);
+
+            RoomPlayerJoined::dispatch($room->id);
         });
     }
 }
