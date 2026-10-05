@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Enums\RoomStatus;
 use App\Exceptions\UnableToGenerateRoomCodeException;
 use App\Models\Room;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,7 @@ class CreateRoomAction
             $room->players()->create([
                 'player_id' => $createdBy,
                 'joined_at' => now(),
+                'seat_number' => 1,
             ]);
 
             return $room;
@@ -33,6 +35,7 @@ class CreateRoomAction
                     'code' => $code,
                     'starts_at' => now()->startOfMinute()->addMinutes(2),
                     'created_by' => $createdBy,
+                    'status' => RoomStatus::Waiting,
                 ]);
             }
         }

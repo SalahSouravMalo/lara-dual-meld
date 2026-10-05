@@ -16,9 +16,13 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->dateTime('starts_at');
             $table->foreignId('created_by')->constrained('users');
+            $table->string('status');
+            $table->foreignId('winner_id')->nullable()->constrained('users');
+            $table->json('game_snapshot')->nullable();
+            $table->dateTime('completed_at')->nullable();
             $table->timestamps();
 
-            $table->index('starts_at');
+            $table->index(['status', 'starts_at']);
         });
     }
 

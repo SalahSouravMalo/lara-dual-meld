@@ -7,7 +7,7 @@ You are helping me create or update a Laravel migration and its related Eloquent
 ### Migration rules
 
 - Follow Laravel latest conventions.
-- If a column definition has 3 or more method chains, put each method on a new line.
+- If a column definition has 4 or more method chains, put each method on a new line.
 - Do NOT put an empty line after each column definition.
 - Do NOT use `->onDelete('cascade')`, `->onDelete('set null')`, or any onDelete / onUpdate constraints. I handle referential integrity in the application layer.
 - Keep the migration clean and minimal.

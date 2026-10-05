@@ -18,6 +18,7 @@ class RoomPlayerFactory extends Factory
             'room_id' => Room::factory(),
             'player_id' => User::factory(),
             'joined_at' => now(),
+            'seat_number' => fake()->unique()->numberBetween(1, 4),
         ];
     }
 }

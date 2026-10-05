@@ -32,6 +32,7 @@ class JoinRoomAction
             $room->players()->create([
                 'player_id' => $player->id,
                 'joined_at' => now(),
+                'seat_number' => $room->players()->max('seat_number') + 1,
             ]);
 
             RoomPlayerJoined::dispatch($room->id);

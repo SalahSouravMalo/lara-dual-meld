@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['room_id', 'player_id', 'joined_at'])]
+#[Fillable(['room_id', 'player_id', 'joined_at', 'seat_number', 'left_at'])]
 class RoomPlayer extends Model
 {
     use HasFactory;
@@ -16,6 +17,7 @@ class RoomPlayer extends Model
     {
         return [
             'joined_at' => 'datetime',
+            'left_at' => 'datetime',
         ];
     }
 
@@ -27,5 +29,10 @@ class RoomPlayer extends Model
     public function player(): BelongsTo
     {
         return $this->belongsTo(User::class, 'player_id', 'id');
+    }
+
+    public function activities(): HasMany
+    {
+        return $this->hasMany(RoomActivity::class);
     }
 }
