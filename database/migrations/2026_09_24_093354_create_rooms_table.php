@@ -21,8 +21,6 @@ return new class extends Migration
             $table->json('game_snapshot')->nullable();
             $table->dateTime('completed_at')->nullable();
             $table->timestamps();
-
-            $table->index(['status', 'starts_at']);
         });
     }
 
