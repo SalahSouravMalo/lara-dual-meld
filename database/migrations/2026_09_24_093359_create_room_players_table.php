@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('room_id')->constrained();
             $table->foreignId('player_id')->nullable()->constrained('users');
             $table->dateTime('joined_at');
-            $table->unsignedTinyInteger('seat_number');
+            $table->unsignedTinyInteger('turn_order');
             $table->dateTime('left_at')->nullable();
             $table->timestamps();
 

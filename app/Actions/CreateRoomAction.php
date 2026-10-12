@@ -2,24 +2,43 @@
 
 namespace App\Actions;
 
+use App\DTOs\GameSnapshotDTO;
 use App\Enums\RoomStatus;
 use App\Exceptions\UnableToGenerateRoomCodeException;
 use App\Models\Room;
+use App\Repositories\GameSnapshotRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class CreateRoomAction
 {
+    public function __construct(
+        private readonly GameSnapshotRepository $gameSnapshotRepository,
+    ) {}
+
     public function execute(int $createdBy): Room
     {
         return DB::transaction(function () use ($createdBy) {
             $room = $this->createRoom($createdBy);
 
-            $room->players()->create([
+            $creator = $room->players()->create([
                 'player_id' => $createdBy,
                 'joined_at' => now(),
-                'seat_number' => 1,
+                'turn_order' => 1,
             ]);
+
+            $initialSnapshot = GameSnapshotDTO::initial($room, $creator);
+
+            $room->update([
+                'game_snapshot' => $initialSnapshot->toArray(),
+            ]);
+
+            DB::afterCommit(function () use ($room, $initialSnapshot) {
+                $this->gameSnapshotRepository->set(
+                    $room->id,
+                    $initialSnapshot
+                );
+            });
 
             return $room;
         });
