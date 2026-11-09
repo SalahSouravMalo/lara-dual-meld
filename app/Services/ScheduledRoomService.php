@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\RoomStarted;
 use App\Models\Room;
 use Illuminate\Support\Carbon;
 
@@ -17,6 +18,9 @@ class ScheduledRoomService
 
         Room::query()
             ->where('starts_at', $startsAt)
-            ->each(fn (Room $room) => $this->roomService->start($room));
+            ->each(function (Room $room): void {
+                $this->roomService->start($room);
+                RoomStarted::dispatch($room->id);
+            });
     }
 }

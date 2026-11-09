@@ -6,6 +6,7 @@ use App\DTOs\GameSnapshotDTO;
 use App\Enums\RoomStatus;
 use App\Exceptions\UnableToGenerateRoomCodeException;
 use App\Models\Room;
+use App\Models\User;
 use App\Repositories\GameSnapshotRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -16,18 +17,21 @@ class CreateRoomAction
         private readonly GameSnapshotRepository $gameSnapshotRepository,
     ) {}
 
-    public function execute(int $createdBy): Room
+    public function execute(User $user): Room
     {
-        return DB::transaction(function () use ($createdBy) {
-            $room = $this->createRoom($createdBy);
+        return DB::transaction(function () use ($user) {
+            $room = $this->createRoom($user->id);
 
             $creator = $room->players()->create([
-                'player_id' => $createdBy,
+                'player_id' => $user->id,
                 'joined_at' => now(),
                 'turn_order' => 1,
             ]);
 
-            $initialSnapshot = GameSnapshotDTO::initial($room, $creator);
+            $initialSnapshot = GameSnapshotDTO::initial(
+                $creator,
+                $user->name,
+            );
 
             $room->update([
                 'game_snapshot' => $initialSnapshot->toArray(),
@@ -44,7 +48,7 @@ class CreateRoomAction
         });
     }
 
-    private function createRoom(int $createdBy): Room
+    private function createRoom(int $creatorId): Room
     {
         for ($attempt = 0; $attempt < 3; $attempt++) {
             $code = $this->generateCode();
@@ -53,7 +57,7 @@ class CreateRoomAction
                 return Room::create([
                     'code' => $code,
                     'starts_at' => now()->startOfMinute()->addMinutes(2),
-                    'created_by' => $createdBy,
+                    'created_by' => $creatorId,
                     'status' => RoomStatus::Waiting,
                 ]);
             }

@@ -13,7 +13,7 @@ class RoomController extends Controller
 {
     public function store(Request $request, CreateRoomAction $action): RedirectResponse
     {
-        $room = $action->execute($request->user()->id);
+        $room = $action->execute($request->user());
 
         return redirect()->route('rooms.show', $room);
     }

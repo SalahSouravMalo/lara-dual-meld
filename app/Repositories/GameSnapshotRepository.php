@@ -10,7 +10,7 @@ class GameSnapshotRepository
 {
     public function get(int $roomId): ?GameSnapshotDTO
     {
-        $snapshot = Cache::get(CacheKeys::GameSnapshot($roomId));
+        $snapshot = Cache::get(CacheKeys::gameSnapshot($roomId));
 
         return \is_array($snapshot) ? GameSnapshotDTO::fromArray($snapshot) : null;
     }
@@ -18,7 +18,7 @@ class GameSnapshotRepository
     public function set(int $roomId, GameSnapshotDTO $snapshot): void
     {
         Cache::put(
-            CacheKeys::GameSnapshot($roomId),
+            CacheKeys::gameSnapshot($roomId),
             $snapshot->toArray(),
             now()->addHour()
         );

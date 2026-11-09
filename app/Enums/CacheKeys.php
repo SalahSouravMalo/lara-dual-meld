@@ -14,12 +14,12 @@ enum CacheKeys: string
         return self::RoomJoin->value.":{$roomId}";
     }
 
-    public static function GameSnapshot(int $roomId): string
+    public static function gameSnapshot(int $roomId): string
     {
         return self::GameSnapshot->value.":{$roomId}";
     }
 
-    public static function GameSnapshotLock(int $roomId): string
+    public static function gameSnapshotLock(int $roomId): string
     {
         return self::GameSnapshotLock->value.":{$roomId}";
     }

@@ -53,10 +53,11 @@ class JoinRoomAction
 
                 $snapshot->version++;
                 $snapshot->players[] = new PlayerDTO(
-                    playerId: $joinedPlayer->player_id,
+                    playerId: $player->id,
+                    name: $player->name,
                     turnOrder: $joinedPlayer->turn_order,
-                    turnType: null,
-                    hand: [],
+                    // turnType: null,
+                    // hand: [],
                 );
 
                 $room->update(['game_snapshot' => $snapshot->toArray()]);
